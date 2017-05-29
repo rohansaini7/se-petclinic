@@ -15,6 +15,7 @@
  */
 package petclinic.controller;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import petclinic.model.Vet;
 import petclinic.model.Vets;
 import petclinic.repositories.VetRepository;
 
@@ -43,10 +45,11 @@ public class VetController {
 
     @RequestMapping(value = { "/vets.html" })
     public String showVetList(Map<String, Object> model) {
-        // Here we are returning an object of type 'Vets' rather than a collection of Vet
+        // Here we are reurning an object of type 'Vets' rather than a collection of Vet
         // objects so it is simpler for Object-Xml mapping
         Vets vets = new Vets();
-        vets.getVetList().addAll(this.vets.findAll());
+        Collection<Vet> allVets = this.vets.findAll();
+        vets.getVetList().addAll( allVets );
         model.put("vets", vets);
         return "vets/vetList";
     }
@@ -56,7 +59,8 @@ public class VetController {
         // Here we are returning an object of type 'Vets' rather than a collection of Vet
         // objects so it is simpler for JSon/Object mapping
         Vets vets = new Vets();
-        vets.getVetList().addAll(this.vets.findAll());
+        Collection<Vet> allVets = this.vets.findAll();
+        vets.getVetList().addAll( allVets );
         return vets;
     }
 
